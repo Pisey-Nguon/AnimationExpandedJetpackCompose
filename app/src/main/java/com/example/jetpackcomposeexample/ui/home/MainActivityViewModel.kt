@@ -9,6 +9,7 @@ class MainActivityViewModel:ViewModel() {
 
     // mutableState holds state which is observed by the UI
     var listUserModel = mutableStateListOf<UserModel>()
+    var deletedItemUser = mutableStateListOf<UserModel>()
 
     init {
         initDataToColumn()
@@ -24,6 +25,10 @@ class MainActivityViewModel:ViewModel() {
             //We use copy property to make on any item
             it[indexMakeChange] = it[indexMakeChange].copy(isExpanded = !it[indexMakeChange].isExpanded)
         }
+    }
+
+    fun removeItem(deletedItem:UserModel){
+        deletedItemUser.add(deletedItem)
     }
 
 }
