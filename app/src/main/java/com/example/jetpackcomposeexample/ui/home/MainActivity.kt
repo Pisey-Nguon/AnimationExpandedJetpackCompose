@@ -1,4 +1,4 @@
-package com.example.jetpackcomposeexample
+package com.example.jetpackcomposeexample.ui.home
 
 import android.content.res.Configuration
 import android.os.Bundle
@@ -13,7 +13,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import coil.transform.CircleCropTransformation
 import com.example.jetpackcomposeexample.model.UserModel
-import com.example.jetpackcomposeexample.sampledata.SampleData
 import com.example.jetpackcomposeexample.ui.theme.JetpackComposeExampleTheme
 
 class MainActivity : ComponentActivity() {
@@ -31,17 +30,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             JetpackComposeExampleTheme(titleActionBar = "JetpackCompose") {
-                ListOfUser(listUser = SampleData.allUserInfo())
+                ListOfUser()
             }
         }
     }
 }
 
 @Composable
-fun Greeting(user: UserModel) {
-    var isExpanded by remember {
-        mutableStateOf(false)
-    }
+fun Greeting(itemUserModel: UserModel, viewModel: MainActivityViewModel) {
     Surface(
         modifier = Modifier
             .padding(horizontal = 8.dp, vertical = 4.dp)
@@ -53,13 +49,13 @@ fun Greeting(user: UserModel) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { isExpanded = !isExpanded }
+                .clickable { viewModel.toggleExpanded(itemUserModel = itemUserModel) }
                 .padding(all = 8.dp)
             ,
         ) {
             Image(
                 painter = rememberImagePainter(
-                    data = user.imageUrl,
+                    data = itemUserModel.imageUrl,
                     builder = {
                         transformations(CircleCropTransformation())
                     }
@@ -69,18 +65,18 @@ fun Greeting(user: UserModel) {
             )
             Spacer(modifier = Modifier.width(8.dp))
             Column() {
-                Text(text = "Name: ${user.userName}",color = MaterialTheme.colors.primary,style = TextStyle(fontWeight = FontWeight.Bold))
-                Text(text = user.desc,color = MaterialTheme.colors.primaryVariant,maxLines = if(isExpanded) Int.MAX_VALUE else 1)
+                Text(text = "Name: ${itemUserModel.userName}",color = MaterialTheme.colors.primary,style = TextStyle(fontWeight = FontWeight.Bold))
+                Text(text = itemUserModel.desc,color = MaterialTheme.colors.primaryVariant,maxLines = if(itemUserModel.isExpanded) Int.MAX_VALUE else 1)
             }
         }
     }
 }
 
 @Composable
-fun ListOfUser(listUser:List<UserModel>){
+fun ListOfUser(viewModel: MainActivityViewModel = androidx.lifecycle.viewmodel.compose.viewModel()){
     LazyColumn(){
-        items(listUser){ userProfile ->
-            Greeting(user = userProfile)
+        items(viewModel.listUserModel){ userProfile ->
+            Greeting(itemUserModel = userProfile,viewModel = viewModel)
         }
     }
 }
@@ -89,6 +85,6 @@ fun ListOfUser(listUser:List<UserModel>){
 @Composable
 fun DefaultPreview() {
     JetpackComposeExampleTheme {
-       ListOfUser(listUser = SampleData.allUserInfo())
+       ListOfUser()
     }
 }

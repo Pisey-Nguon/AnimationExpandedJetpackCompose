@@ -63,6 +63,12 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
 
+    //Library for image
     implementation("io.coil-kt:coil-compose:1.4.0")
+
+    //Library for system UI
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.21.2-beta"
+
+    //View Model of Compose
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0"
 }
