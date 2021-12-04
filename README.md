@@ -1,4 +1,5 @@
 # AnimationExpandedJetpackCompose
-![20211111_151723](https://user-images.githubusercontent.com/47247206/141262911-bf95d7f9-63b5-4030-b994-f48ec2851502.gif)
 
-This is a simple list with animation expanded that build with Jetpack Compose
+This is a simple list with animation expanded and remove that build with Jetpack Compose so you can clone to see structure of code with simple state management to manage pagination of lazyColumn
+
+![20211204_090941](https://user-images.githubusercontent.com/47247206/144693232-8fbd5f39-0ee4-406c-83fc-be9bdc029ee2.gif)
