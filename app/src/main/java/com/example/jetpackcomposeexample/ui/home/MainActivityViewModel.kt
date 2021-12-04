@@ -15,7 +15,8 @@ class MainActivityViewModel:ViewModel() {
     var listUserModel = mutableStateListOf<UserModel>()
     var deletedItemUser = mutableStateListOf<UserModel>()
     var placeholderState = mutableStateOf<PlaceholderState>(value = PlaceholderState.Fetching)
-    var isEnableLoadMore = true
+
+    private var isEnableLoadMore = true
 
     init {
         initDataToColumn()
@@ -23,7 +24,8 @@ class MainActivityViewModel:ViewModel() {
 
     private fun initDataToColumn(){
         Handler(Looper.getMainLooper()).postDelayed({
-            placeholderState.value = PlaceholderState.Error(throwable = Throwable())
+            listUserModel.addAll(SampleData.allUserInfo())
+            placeholderState.value = PlaceholderState.Completed(isHaveLoadMore = true)
         },1000)
     }
 
@@ -41,6 +43,7 @@ class MainActivityViewModel:ViewModel() {
             Handler(Looper.getMainLooper()).postDelayed({
                 listUserModel.addAll(SampleData.allUserInfo())
                 isEnableLoadMore = true
+                placeholderState.value = PlaceholderState.Completed(isHaveLoadMore = true)
             },2000)
 
         }
